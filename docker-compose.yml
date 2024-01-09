@@ -1,0 +1,255 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" 
+      - "15672:15672" 
+    environment:
+      RABBITMQ_DEFAULT_USER: "user"
+      RABBITMQ_DEFAULT_PASS: "password"
+
+  security_monitor:
+    build: ./SecurityMonitor
+    depends_on:
+      - rabbitmq
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 3
+          cargo run
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+
+  battery_charge_control_system:
+    build: ./BatteryChargeControlSystem
+    depends_on:
+      - security_monitor
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 8
+          ./Test
+          ./BatteryChargeControlSystem
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+
+  central_control_system:
+    build: ./CentralControlSystem
+    depends_on:
+      - security_monitor
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 8
+          ./CentralControlSystem
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+
+ 
+  fire_ignition_system:
+    build: ./FireIgnitionSystem
+    depends_on:
+      - security_monitor
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 8
+          ./FireIgnitionSystem
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+  extinguishing_control_system:
+    build: ./ExtinguishingControlSystem
+    depends_on:
+      - security_monitor
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 8
+          ./ExtinguishingControlSystem
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+
+ 
+  situation_control_system:
+    build: ./SituationControlSystem
+    depends_on:
+      - security_monitor
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 8
+          ./SituationControlSystem
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+
+  movement_control_system:
+    build: ./MovementControlSystem
+    depends_on:
+      - security_monitor
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 8
+          ./MovementControlSystem
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+
+  gnss_navigation_system:
+    build: ./GNSSNavigationSystem
+    depends_on:
+      - security_monitor
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 8
+          ./GNSSNavigationSystem
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+
+  ins_navigation_system:
+    build: ./INSNavigationSystem
+    depends_on:
+      - security_monitor
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 8
+          ./INSNavigationSystem
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+
+  complexing_system:
+    build: ./ComplexingSystem
+    depends_on:
+      - security_monitor
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 8
+          ./ComplexingSystem
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+
+  flight_task_authenticator:
+    build: ./FlightTaskAuthenticator
+    depends_on:
+      - security_monitor
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 8
+          ./FlightTaskAuthenticator
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+
+  fire_extinguishing_system:
+    build: ./FireExtinguishingSystem
+    depends_on:
+      - security_monitor
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 8
+          ./FireExtinguishingSystem
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+  fps:
+    build: ./FPS
+    depends_on:
+      - security_monitor
+    ports:
+      - "8081:8081"
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 80
+          ./FPS
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"
+
+  connection:
+    build: ./Connection
+    depends_on:
+      - security_monitor
+    ports:
+      - "8082:8082"
+    entrypoint:
+      - bash
+      - -c
+      - |
+          python3 wait_for_rabbitmq.py rabbitmq user password
+          sleep 19
+          ./Connection
+    environment:
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: user
+      RABBIT_PASS: password
+      RABBIT_VHOST: "/"

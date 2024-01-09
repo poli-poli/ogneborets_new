@@ -1,0 +1,3 @@
+rabbitmq_data/
+SecurityMonitor/target
+SecurityMonitor/Cargo.lock
