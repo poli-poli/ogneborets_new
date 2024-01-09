@@ -24,7 +24,7 @@
 
 ### Компилятор C++
 
-- **Linux:** Обычно уже установлен, или `sudo apt-get install g++`
+- **Linux:** Обычно уже установлен или `sudo apt-get install g++`
 - **Windows:** [MinGW](http://www.mingw.org/) или компилятор Visual Studio
 ### Компилятор Rust
 
