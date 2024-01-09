@@ -1,24 +1,44 @@
 ## Описание проекта
 Этот проект представляет собой распределенную систему, использующую RabbitMQ для обмена сообщениями между различными компонентами. Система включает в себя несколько подсистем, каждая из которых выполняет свою уникальную функцию в рамках общей архитектуры.
 
-## Требования
-Для запуска проекта потребуются:
-- Docker
-- Docker Compose
-- make
+# Разработка и Тестирование
 
-**Для проверки установленных утилит, необходимых для запуска проекта, вы можете использовать следующие команды:**
-**Проверка Docker:**
-`docker --version`
-Команда вернет версию Docker, если он установлен.
+## Окружение для Разработки
 
-**Проверка Docker Compose:**
-`docker-compose --version`
-Команда вернет версию Docker Compose, если он установлен.
+Для работы с проектом убедитесь, что следующие инструменты установлены:
 
-**Проверка make:**
-`make --version`
-Команда вернет версию make, если он установлен.
+### Docker
+
+- **Проверка:** `docker --version`
+- **Установка:** [Docker](https://www.docker.com/get-started)
+
+### Docker Compose
+
+- **Проверка:** `docker-compose --version`
+- **Установка:** Включен в установку Docker
+
+### GNU Make
+
+- **Проверка:** `make --version`
+- **Установка (Linux):** `sudo apt-get install make` или `sudo yum install make`
+
+### Компилятор C++
+
+- **Linux:** Обычно уже установлен, или `sudo apt-get install g++`
+- **Windows:** [MinGW](http://www.mingw.org/) или компилятор Visual Studio
+### Компилятор Rust
+
+- **Проверка:** `rustc --version`
+- **Установка:** [Установка Rust](https://www.rust-lang.org/tools/install)
+  - В Linux и macOS: Команда `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
+  - В Windows: Скачайте и запустите [rustup-init.exe](https://win.rustup.rs/)
+
+
+### PowerShell (Windows)
+
+- **Установка:** Уже предустановлен на Windows 10, для старых версий [сайт Microsoft](https://docs.microsoft.com/ru-ru/powershell/scripting/install/installing-powershell)
+
+
 ## Запуск сборки проекта:
 `make all`
 ## Остановка и очистка:
