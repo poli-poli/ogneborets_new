@@ -66,38 +66,43 @@ make tests
 
 ### НС-2
 Комплексирование неверно вычислило текущее местонахождение БПЛА, что привело к нарушению ЦБ1.
-![нс2 drawio](https://github.com/poli-poli/drone/assets/85806007/d8b48eea-11dd-4f9d-8e69-901dd779cb95)
+![нс2 drawio](https://github.com/poli-poli/ogneborets_new/assets/85806007/311e67c8-6391-4b28-b9cf-72433e23634c)
+
 
 
 ### НС-3
 Контроль активации цепей тушения и поджига скомпрометирован, что привело к нарушению ЦБ1 и ЦБ2.
-![нс3 drawio](https://github.com/poli-poli/drone/assets/85806007/50058184-ade8-4648-84eb-1673f9e3122f)
+![нс3 drawio](https://github.com/poli-poli/ogneborets_new/assets/85806007/7fe9a9d0-082a-4b7d-83d0-53da84f5df92)
 
 
 ### НС-4
 Управление перемещением скомпрометировано, что привело к ошибке в расчете координат, что привело к нарушению ЦБ1.
-![нс4 drawio](https://github.com/poli-poli/drone/assets/85806007/87f9e934-b5cc-483d-b8f1-ccd289f7228e)
+![нс4 drawio](https://github.com/poli-poli/ogneborets_new/assets/85806007/479f023d-47c4-4d20-a9ac-67ee8d26d4ac)
+
 
 
 ### НС-5
 Тушение водой скомпрометировано, что привело к нарушению ЦБ1 и ЦБ2.
-![нс56 drawio](https://github.com/poli-poli/drone/assets/85806007/54613b9e-80ea-4e89-9ea8-1766e6d7f6d9)
+![нс56 drawio](https://github.com/poli-poli/ogneborets_new/assets/85806007/e8035a07-80eb-4a91-be36-b776b73de7d0)
 
 
 ### НС-6
 Поджигание скомпрометировано, что привело к нарушению ЦБ1 и ЦБ2.
-![нс56 drawio](https://github.com/poli-poli/drone/assets/85806007/402966db-829e-4929-903a-0bce3f860cff)
+![нс56 drawio](https://github.com/poli-poli/ogneborets_new/assets/85806007/27e0dae8-2f3f-4aae-85f2-b0e9e664e067)
+
 
 
 ### НС-7
 Контроль аутентичности полётного задания скомпрометирован, что привело к неспособности распознать поддельное или измененное полетное задание и нарушению ЦБ1.
-![нс7 drawio](https://github.com/poli-poli/drone/assets/85806007/4d169941-f604-42ce-942c-dde7ae9102d9)
+![нс7 drawio](https://github.com/poli-poli/ogneborets_new/assets/85806007/f377c2ad-bc74-481f-ac93-fb481edb3f2b)
+
 
 
 
 
 ## Схема с указанием доверенных компонентов
-![image](https://github.com/poli-poli/drone/assets/85806007/3bda11a8-5c05-47ac-aa34-30d214a5bf08)
+![image](https://github.com/poli-poli/ogneborets_new/assets/85806007/a3a7b5f5-3aea-4a52-91b9-708751eea964)
+
 
 
 ## Доверенные компоненты
