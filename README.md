@@ -60,7 +60,8 @@ make tests
 
 ### НС-1
 Связь получила изменённое полётное задание, что привело к нарушению ЦБ1 и ЦБ2.
-![нс1 drawio](https://github.com/poli-poli/drone/assets/85806007/ad6bd4a1-3a20-4e88-b535-b422bbabfd88)
+![нс1 drawio](https://github.com/poli-poli/ogneborets_new/assets/85806007/5d821993-506c-4daa-b23d-b02920521335)
+
 
 
 ### НС-2
