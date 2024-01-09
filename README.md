@@ -255,8 +255,8 @@ Unit-тесты для SecurityMonitor также запускаются авт�
 | CentralControlSystem | FireExtinguishingSystem | activate_extinguishing | true |
 | FireExtinguishingSystem | CentralControlSystem | extinguishing_activated | true |
 | BatteryChargeControlSystem | CentralControlSystem | battery_status | true |
-| FlightTaskAuthenticator | CentralControlSystem | start_extinguishing1 | true |
-| FlightTaskAuthenticator | ExtinguishingControlSystem | start_extinguishing2 | true |
+| FlightTaskAuthenticator | CentralControlSystem | start_extinguishing1 (тестовая операция) | true |
+| FlightTaskAuthenticator | ExtinguishingControlSystem | start_extinguishing2 (тестовая операция) | true |
 | Connection | FlightTaskAuthenticator | start_extinguishing1 (тестовая операция)| true | *test policies* |
 | Connection | FlightTaskAuthenticator | start_extinguishing2 (тестовая операция)| true | *test policies* |
 
