@@ -44,15 +44,6 @@
 ## Остановка и очистка:
 `make clean`
 ## Тестирование
-### Автоматические Тесты
-В контейнере BatteryChargeControlSystem автоматически запускаются тесты для библиотеки Rabbitmq.h.<br />
-Unit-тесты для SecurityMonitor также запускаются автоматически при запуске соответствующего контейнера.<br />
-
-### Тесты Rabbitmq
-**CorrectMessageHandling:** Проверяет, что функция корректно обрабатывает правильный JSON. В этом тесте передается JSON строка с полем "operation". Ожидается, что функция вернет значение этого поля. Этот тест подтверждает, что функция правильно извлекает и возвращает информацию из валидных JSON данных.
-
-**IncorrectJsonHandling:** Проверяет, как функция обрабатывает некорректный JSON. В этом тесте передается строка, которая не является валидным JSON. Ожидается, что функция вернет пустую строку, что указывает на то, что она правильно обрабатывает ошибки при парсинге JSON.
-
 
 ### Тесты SecurityMonitor
 Включают четыре теста, направленных на проверку корректности функций обработки операций. В каждом тесте проверяется, что функция check_operation корректно определяет допустимые и недопустимые операции. Тесты охватывают различные сценарии, включая валидные операции, невалидные источники, невалидные операции и сценарии с отсутствующими полями.
@@ -249,7 +240,8 @@ Unit-тесты для SecurityMonitor также запускаются авт�
 ## Политики безопасности
 | Источник | Получатель | Операция | Результат |
 |--------|-------------|-----------|--------|
-| ComplexingSystem | CentralControlSystem | request_coordinates | true |
+| FlightTaskAuthenticator | CentralControlSystem | start_extinguishing | true |
+| CentralControlSystem | ComplexingSystem | request_coordinates | true |
 | CentralControlSystem | MovementControlSystem | move_to_area | true |
 | MovementControlSystem | CentralControlSystem | movement_completed | true |
 | CentralControlSystem | ExtinguishingControlSystem | start_extinguishing | true |
@@ -265,7 +257,8 @@ Unit-тесты для SecurityMonitor также запускаются авт�
 | ExtinguishingControlSystem | CentralControlSystem | ignition_completed | true |
 | CentralControlSystem | FireIgnitionSystem | activate_ignition | true |
 | FireIgnitionSystem | CentralControlSystem | ignition_activated | true |
-| CentralControlSystem | GNSSNavigationSystem | request_coordinates | true |
+| ComplexingSystem | GNSSNavigationSystem | request_coordinates | true |
+| ComplexingSystem | INSNavigationSystem | request_coordinates | true |
 | GNSSNavigationSystem | ComplexingSystem | coordinates | true |
 | INSNavigationSystem | ComplexingSystem | coordinates | true |
 | CentralControlSystem | SituationControlSystem | request_situation_update | true |
@@ -275,10 +268,11 @@ Unit-тесты для SecurityMonitor также запускаются авт�
 | CentralControlSystem | FireExtinguishingSystem | activate_extinguishing | true |
 | FireExtinguishingSystem | CentralControlSystem | extinguishing_activated | true |
 | BatteryChargeControlSystem | CentralControlSystem | battery_status | true |
-| FlightTaskAuthenticator | CentralControlSystem | start_extinguishing1 (тестовая операция) | true |
-| FlightTaskAuthenticator | ExtinguishingControlSystem | start_extinguishing2 (тестовая операция) | true |
-| Connection | FlightTaskAuthenticator | start_extinguishing1 (тестовая операция)| true | *test policies* |
-| Connection | FlightTaskAuthenticator | start_extinguishing2 (тестовая операция)| true | *test policies* |
+| Connection | FlightTaskAuthenticator | _ | true | *test policies* |
+| FlightTaskAuthenticator | CentralControlSystem | _ | true |*test policies* |
+| FlightTaskAuthenticator | ExtinguishingControlSystem | _ | true |*test policies* |
+
+
 
 
 ## Типы заданий для монитора безопасности
