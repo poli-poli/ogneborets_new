@@ -20,7 +20,7 @@ done
 curl -s "http://localhost:8082/api?command=start&task=A" 1>/dev/null && echo "Started Task A"
 exit_code=$?
 if [ ${exit_code} -ne 0 ]; then
-    echo "Unable to connect to service on localhost:8081"
+    echo "Unable to connect to service on localhost:8082"
     exit 1
 fi
 
