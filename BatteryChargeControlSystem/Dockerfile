@@ -51,13 +51,15 @@ WORKDIR /app
 COPY . /app
 
 # Компиляция тестов
-RUN g++ -o MyTest Test.cpp -L/usr/local/lib -lamqpcpp -lrabbitmq -lgtest -lgmock -pthread
+#RUN g++ -o Test Test.cpp -L/usr/local/lib -lamqpcpp -lrabbitmq -lgtest -lgmock -pthread
 
 # Компиляция основного приложения
-RUN g++ -o BatteryChargeControlSystem BatteryChargeControlSystem.cpp -L/usr/local/lib -lamqpcpp -lrabbitmq
+RUN g++ -o BatteryChargeControlSystem BatteryChargeControlSystem.cpp -L/usr/local/lib -lamqpcpp -lrabbitmq -pthread
+
+
 
 # Запуск основного приложения
-CMD [./Test && python3 /tmp/wait_for_rabbitmq.py && ./BatteryChargeControlSystem]
+CMD [python3 wait_for_rabbitmq.py && ./BatteryChargeControlSystem]
 
 
 

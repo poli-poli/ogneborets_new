@@ -2,14 +2,12 @@
 
 #include <nlohmann/json.hpp>
 
+
 #include "Rabbitmq.h"
-
-#include <chrono>
-
-#include <thread>
 
 using namespace std;
 using json = nlohmann::json;
+using MessageHandlerFunction = std:: function < int(AMQPMessage * ) > ;
 
 int main(void) {
     char * host = std::getenv("RABBIT_HOST");
@@ -18,10 +16,9 @@ int main(void) {
     char * vhost = std::getenv("RABBIT_VHOST");
 
     if (!host || !user || !password || !vhost) {
-        cerr << "One or more environment variables (RABBIT_HOST, RABBIT_USER, RABBIT_PASS, RABBIT_VHOST) are not set." << endl;
+        cerr << "One or more environment variables are not set." << endl;
         return 1;
     }
-
     string conn_str = string(user) + ":" + string(password) + "@" + string(host) + "/" + string(vhost);
     const char * exchange_name = "monitor";
     const char * queue_name = "SecurityMonitor";
@@ -30,28 +27,35 @@ int main(void) {
 
     Publisher publisher(conn_str, exchange_name, queue_name);
 
-    MessageHandlerFunction handler = [](AMQPMessage * message) -> int {
+    MessageHandlerFunction handler = [ & ](AMQPMessage * message) -> int {
         uint32_t j = 0;
         char * data = message -> getMessage( & j);
         if (data) {
-            try {
-                json receivedMsg = json::parse(data);
-                string operation = receivedMsg["operation"];
-                cout << "Received operation: " << operation << endl;
-            } catch (const json::parse_error & e) {
-                cerr << "JSON parsing error: " << e.what() << endl;
+
+            json receivedMsg = json::parse(data);
+            string operation = receivedMsg["operation"];
+            cout << "Received operation: " << operation << endl;
+
+            if (operation == "start_extinguishing") {
+                // Handle start_extinguishing and send extinguishing_completed to CentralControlSystem
+                json responseMsg;
+                responseMsg["source"] = "ExtinguishingControlSystem";
+                responseMsg["data"] = 1;
+                responseMsg["operation"] = "extinguishing_completed";
+                responseMsg["deliver_to"] = "CentralControlSystem";
+
+                string responseMessage = responseMsg.dump();
+                publisher.sendMessage("SecurityMonitor", responseMessage);
+                cout << "Sent response message for extinguishing_completed: " << responseMessage << "\n";
+
             }
         }
         return 0;
     };
 
     Consumer consumer(conn_str, exchange_name, queue_name1, consumer_tag, handler);
+
     consumer.startConsuming();
-
-    std::this_thread::sleep_for(std::chrono::seconds(10));
-
-    string lastOperation = consumer.getLastOperation();
-    cout << "Last operation: " << lastOperation << endl;
 
     return 0;
 }

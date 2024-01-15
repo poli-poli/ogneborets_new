@@ -42,11 +42,6 @@ RUN git config --global http.postBuffer 524288000 \
     && git clone https://github.com/nlohmann/json.git \
     && cp -r json/single_include/nlohmann /usr/include/
 
-    
-# Скачивание и установка заголовочного файла cpp-httplib
-RUN git clone https://github.com/yhirose/cpp-httplib.git \
-    && cp cpp-httplib/httplib.h /usr/include/
-
 # Установка рабочего каталога в контейнере
 WORKDIR /app
 
@@ -54,9 +49,7 @@ WORKDIR /app
 COPY . /app
 
 # Компиляция приложения
-RUN g++ -o FlightTaskAuthenticator FlightTaskAuthenticator.cpp -L/usr/local/lib -lamqpcpp -lrabbitmq -pthread
-
-
+RUN g++ -o FlightTaskAuthenticator FlightTaskAuthenticator.cpp -L/usr/local/lib -lamqpcpp -lrabbitmq
 
 # Запуск скрипта wait_for_rabbitmq.py, затем приложения
 CMD ["sh", "-c", "python3 /tmp/wait_for_rabbitmq.py && ./FlightTaskAuthenticator"]

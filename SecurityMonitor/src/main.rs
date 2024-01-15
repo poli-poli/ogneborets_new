@@ -1,5 +1,3 @@
-
-
 mod check_operation;
 mod test;
 
@@ -70,8 +68,7 @@ async fn init_rabbit(channel: &Channel) {
         "SecurityMonitor", "BatteryChargeControlSystem", "CentralControlSystem",
         "ComplexingSystem", "ExtinguishingControlSystem", "FireExtinguishingSystem",
         "FireIgnitionSystem", "FlightTaskAuthenticator", "GNSSNavigationSystem",
-        "INSNavigationSystem", "MovementControlSystem", "Connection", 
-        "FPS",
+        "INSNavigationSystem", "MovementControlSystem", "Connection"
     ];
 
     for queue in queues.iter() {
@@ -121,7 +118,6 @@ async fn main() {
     println!("Consumer has been started!");
 
     while let Some(delivery) = consumer.next().await {
-        println!("message!");
         let delivery = delivery.expect("error in consumer"); 
         on_new_delivery(&channel, &delivery).await;
         delivery.ack(BasicAckOptions::default())

@@ -55,10 +55,12 @@ WORKDIR /app
 COPY . /app
 
 
+# Компиляция тестов
+#RUN g++ -o Test Test.cpp -L/usr/local/lib -lamqpcpp -lrabbitmq -lgtest -lgmock -pthread
+
 # Компиляция основного приложения
 RUN g++ -o Connection Connection.cpp -L/usr/local/lib -lamqpcpp -lrabbitmq -std=c++11 -pthread
 
-EXPOSE 8082
 
 # Запуск основного приложения
-CMD [./Test && python3 wait_for_rabbitmq.py && ./Connection]
+CMD [python3 wait_for_rabbitmq.py && ./Connection]

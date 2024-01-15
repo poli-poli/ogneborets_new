@@ -2,14 +2,12 @@
 
 #include <nlohmann/json.hpp>
 
+
 #include "Rabbitmq.h"
-
-#include <chrono>
-
-#include <thread>
 
 using namespace std;
 using json = nlohmann::json;
+using MessageHandlerFunction = std:: function < int(AMQPMessage * ) > ;
 
 int main(void) {
     char * host = std::getenv("RABBIT_HOST");
@@ -18,10 +16,9 @@ int main(void) {
     char * vhost = std::getenv("RABBIT_VHOST");
 
     if (!host || !user || !password || !vhost) {
-        cerr << "One or more environment variables (RABBIT_HOST, RABBIT_USER, RABBIT_PASS, RABBIT_VHOST) are not set." << endl;
+        cerr << "One or more environment variables are not set." << endl;
         return 1;
     }
-
     string conn_str = string(user) + ":" + string(password) + "@" + string(host) + "/" + string(vhost);
     const char * exchange_name = "monitor";
     const char * queue_name = "SecurityMonitor";
@@ -30,41 +27,34 @@ int main(void) {
 
     Publisher publisher(conn_str, exchange_name, queue_name);
 
-    MessageHandlerFunction handler = [](AMQPMessage * message) -> int {
+    MessageHandlerFunction handler = [ & ](AMQPMessage * message) -> int {
         uint32_t j = 0;
         char * data = message -> getMessage( & j);
         if (data) {
-            try {
-                json receivedMsg = json::parse(data);
-                string operation = receivedMsg["operation"];
-                cout << "Received operation: " << operation << endl;
-                // Сохранение operation для дальнейшего использования
-            } catch (const json::parse_error & e) {
-                cerr << "JSON parsing error: " << e.what() << endl;
+
+            json receivedMsg = json::parse(data);
+            string operation = receivedMsg["operation"];
+            cout << "Received operation: " << operation << endl;
+
+            if (operation == "request_coordinates") {
+                json responseMsg;
+                responseMsg["source"] = "GNSSNavigationSystem";
+                responseMsg["data"] = 1;
+                responseMsg["operation"] = "send_coordinates";
+                responseMsg["deliver_to"] = "ComplexingSystem";
+
+                string responseMessage = responseMsg.dump();
+                publisher.sendMessage("SecurityMonitor", responseMessage);
+                cout << "Sent response message: " << responseMessage << "\n";
+
             }
         }
         return 0;
     };
 
     Consumer consumer(conn_str, exchange_name, queue_name1, consumer_tag, handler);
+
     consumer.startConsuming();
-
-    std::this_thread::sleep_for(std::chrono::seconds(10));
-
-    string lastOperation = consumer.getLastOperation();
-    cout << "Last operation: " << lastOperation << endl;
-
-    if (lastOperation == "coordinates") {
-    json msg;
-    msg["source"] = "GNSSNavigationSystem";
-    msg["data"] = "GNSS coordinates data";
-    msg["operation"] = "coordinates";
-    msg["deliver_to"] = "ComplexingSystem";
-
-    string message = msg.dump();
-    publisher.sendMessage("SecurityMonitor", message);
-    }
-
 
     return 0;
 }

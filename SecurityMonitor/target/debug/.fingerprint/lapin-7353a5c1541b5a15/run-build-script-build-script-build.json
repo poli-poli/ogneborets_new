@@ -1,0 +1,1 @@
+{"rustc":8349863189884543492,"features":"","target":0,"profile":0,"path":0,"deps":[[182366410222054263,"build_script_build",false,8919561447328073878]],"local":[{"RerunIfEnvChanged":{"var":"LAPIN_CODEGEN_DIR","val":null}},{"RerunIfEnvChanged":{"var":"LAPIN_CODEGEN_FILE","val":null}}],"rustflags":[],"metadata":0,"config":0,"compile_kind":0}

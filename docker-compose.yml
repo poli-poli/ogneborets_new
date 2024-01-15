@@ -5,8 +5,8 @@ services:
     image: "rabbitmq:3-management"
     container_name: rabbitmq
     ports:
-      - "5672:5672" 
-      - "15672:15672" 
+      - "5672:5672" # AMQP порт
+      - "15672:15672" # Web-интерфейс RabbitMQ
     environment:
       RABBITMQ_DEFAULT_USER: "user"
       RABBITMQ_DEFAULT_PASS: "password"
@@ -20,7 +20,7 @@ services:
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 3
+          sleep 5
           cargo run
     environment:
       RABBIT_HOST: rabbitmq
@@ -37,8 +37,7 @@ services:
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 8
-          ./Test
+          sleep 25
           ./BatteryChargeControlSystem
     environment:
       RABBIT_HOST: rabbitmq
@@ -47,21 +46,21 @@ services:
       RABBIT_VHOST: "/"
 
   central_control_system:
-    build: ./CentralControlSystem
-    depends_on:
-      - security_monitor
-    entrypoint:
-      - bash
-      - -c
-      - |
-          python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 8
-          ./CentralControlSystem
-    environment:
-      RABBIT_HOST: rabbitmq
-      RABBIT_USER: user
-      RABBIT_PASS: password
-      RABBIT_VHOST: "/"
+     build: ./CentralControlSystem
+     depends_on:
+       - security_monitor
+     entrypoint:
+       - bash
+       - -c
+       - |
+           python3 wait_for_rabbitmq.py rabbitmq user password
+           sleep 25
+           ./CentralControlSystem
+     environment:
+       RABBIT_HOST: rabbitmq
+       RABBIT_USER: user
+       RABBIT_PASS: password
+       RABBIT_VHOST: "/"
 
  
   fire_ignition_system:
@@ -73,7 +72,7 @@ services:
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 8
+          sleep 2
           ./FireIgnitionSystem
     environment:
       RABBIT_HOST: rabbitmq
@@ -89,7 +88,7 @@ services:
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 8
+          sleep 25
           ./ExtinguishingControlSystem
     environment:
       RABBIT_HOST: rabbitmq
@@ -107,7 +106,7 @@ services:
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 8
+          sleep 25
           ./SituationControlSystem
     environment:
       RABBIT_HOST: rabbitmq
@@ -124,7 +123,7 @@ services:
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 8
+          sleep 25
           ./MovementControlSystem
     environment:
       RABBIT_HOST: rabbitmq
@@ -141,7 +140,7 @@ services:
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 8
+          sleep 25
           ./GNSSNavigationSystem
     environment:
       RABBIT_HOST: rabbitmq
@@ -158,7 +157,7 @@ services:
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 8
+          sleep 25
           ./INSNavigationSystem
     environment:
       RABBIT_HOST: rabbitmq
@@ -175,7 +174,7 @@ services:
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 8
+          sleep 25
           ./ComplexingSystem
     environment:
       RABBIT_HOST: rabbitmq
@@ -192,7 +191,7 @@ services:
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 8
+          sleep 15
           ./FlightTaskAuthenticator
     environment:
       RABBIT_HOST: rabbitmq
@@ -209,7 +208,7 @@ services:
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 8
+          sleep 25
           ./FireExtinguishingSystem
     environment:
       RABBIT_HOST: rabbitmq
@@ -220,14 +219,12 @@ services:
     build: ./FPS
     depends_on:
       - security_monitor
-    ports:
-      - "8081:8081"
     entrypoint:
       - bash
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 80
+          sleep 15
           ./FPS
     environment:
       RABBIT_HOST: rabbitmq
@@ -239,14 +236,12 @@ services:
     build: ./Connection
     depends_on:
       - security_monitor
-    ports:
-      - "8082:8082"
     entrypoint:
       - bash
       - -c
       - |
           python3 wait_for_rabbitmq.py rabbitmq user password
-          sleep 19
+          sleep 5
           ./Connection
     environment:
       RABBIT_HOST: rabbitmq

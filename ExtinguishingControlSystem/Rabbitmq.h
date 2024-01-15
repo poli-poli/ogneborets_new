@@ -30,8 +30,6 @@ public:
         qu2->addEvent(AMQP_MESSAGE, messageHandler);
     }
 
-    ~Consumer() { delete amqp; }
-
     void startConsuming() {
         try {
             qu2->Consume(AMQP_NOACK);
@@ -49,17 +47,23 @@ class Publisher {
 private:
     AMQP *amqp;
     AMQPExchange *ex;
+    AMQPQueue *qu;  
 
 public:
     Publisher(const string &conn_str, const string &exchange_name, const string &queue_name)
         : amqp(new AMQP(conn_str)), ex(amqp->createExchange(exchange_name)) {
+        
         ex->Declare(exchange_name, "direct", AMQP_DURABLE);
-    }
 
-    ~Publisher() { delete amqp; }
+        qu = amqp->createQueue(queue_name);
+        qu->Declare(queue_name, AMQP_DURABLE);
+
+        qu->Bind(exchange_name, queue_name);
+    }
 
     void sendMessage(const string &routing_key, const string &message) {
         ex->Publish(message, routing_key);
         cout << "Sent message: " << message << "\n";
     }
 };
+

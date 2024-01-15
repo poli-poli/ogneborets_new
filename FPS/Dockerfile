@@ -56,7 +56,5 @@ COPY . /app
 # Компиляция приложения
 RUN g++ -o FPS FPS.cpp -L/usr/local/lib -lamqpcpp -lrabbitmq -std=c++11 -pthread
 
-EXPOSE 8081
-
 # Запуск скрипта wait_for_rabbitmq.py, затем приложения
 CMD ["sh", "-c", "python3 wait_for_rabbitmq.py && ./FPS"]

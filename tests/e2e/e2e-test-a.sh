@@ -1,3 +1,4 @@
+# e2e-test-a.sh
 echo "E2E Test A - Start authentic task A"
 counter=0
 while true; do

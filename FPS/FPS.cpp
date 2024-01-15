@@ -1,7 +1,5 @@
 #include <iostream> 
 #include <httplib.h> 
-#include <nlohmann/json.hpp> 
-#include "Rabbitmq.h" 
 
 #include <string>
 #include <vector>
@@ -9,7 +7,7 @@
 
 using namespace std;
 using namespace httplib;
-using json = nlohmann::json;
+
 
 const int PORT = 8081;
 const string CONNECTION_HOST = "connection"; 

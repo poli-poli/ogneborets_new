@@ -5,15 +5,16 @@ mod tests {
     #[test]
     fn test_check_operation_valid() {
         let mut valid_operation = serde_json::json!({
-            "source": "ExtinguishingControlSystem",
+        
+            "source": "FlightTaskAuthenticator",
             "deliver_to": "CentralControlSystem",
-            "operation": "extinguishing_completed"
+            "operation": "start_extinguishing"
         });
-
+       
         assert_eq!(check_operation(&valid_operation), true);
-
-        valid_operation["source"] = "ComplexingSystem".into();
-        valid_operation["operation"] = "request_coordinates".into();
+        
+        valid_operation["source"] = "CentralControlSystem".into();
+        valid_operation["deliver_to"] = "ExtinguishingControlSystem".into();
 
         assert_eq!(check_operation(&valid_operation), true);
     }
