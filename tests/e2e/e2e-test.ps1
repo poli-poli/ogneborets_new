@@ -3,7 +3,7 @@ echo "Test e2e - try start authentic task A"
 $counter = 0
 while ($true) {
     $counter++
-    $response = Invoke-WebRequest -Uri "http://localhost:8082/api" -UseBasicParsing -ErrorAction SilentlyContinue
+    $response = Invoke-WebRequest -Uri "http://localhost:8081/api" -UseBasicParsing -ErrorAction SilentlyContinue
     if ($response) {
         echo "FPS is accessible"
         break
@@ -16,14 +16,14 @@ while ($true) {
     Start-Sleep -Seconds 1
 }
 
-Invoke-WebRequest -Uri "http://localhost:8082/api?command=start&task=A" -UseBasicParsing
+Invoke-WebRequest -Uri "http://localhost:8081/api?command=start&task=A" -UseBasicParsing
 echo "Start Task A"
 Start-Sleep -Seconds 2
 
 $counter = 0
 while ($true) {
     $counter++
-    $logResponse = Invoke-WebRequest -Uri "http://localhost:8082/api?tasks_log=true" -UseBasicParsing
+    $logResponse = Invoke-WebRequest -Uri "http://localhost:8081/api?tasks_log=true" -UseBasicParsing
     if ($logResponse.Content -match "Task A: started") {
         echo "Test completed successfully"
         break
@@ -41,7 +41,7 @@ echo "Test e2e - try to start not_authentic task B"
 $counter = 0
 while ($true) {
     $counter++
-    $response = Invoke-WebRequest -Uri "http://localhost:8082/api" -UseBasicParsing -ErrorAction SilentlyContinue
+    $response = Invoke-WebRequest -Uri "http://localhost:8081/api" -UseBasicParsing -ErrorAction SilentlyContinue
     if ($response) {
         echo "FPS is accessible"
         break
@@ -54,14 +54,14 @@ while ($true) {
     Start-Sleep -Seconds 1
 }
 
-Invoke-WebRequest -Uri "http://localhost:8082/api?command=start&task=B" -UseBasicParsing
+Invoke-WebRequest -Uri "http://localhost:8081/api?command=start&task=B" -UseBasicParsing
 echo "Start Task B"
 Start-Sleep -Seconds 2
 
 $counter = 0
 while ($true) {
     $counter++
-    $logResponse = Invoke-WebRequest -Uri "http://localhost:8082/api?tasks_log=true" -UseBasicParsing
+    $logResponse = Invoke-WebRequest -Uri "http://localhost:8081/api?tasks_log=true" -UseBasicParsing
     if ($logResponse.Content -match "Task B: not authentic") {
         echo "Test completed successfully"
         break

@@ -217,8 +217,7 @@ services:
       RABBIT_VHOST: "/"
   fps:
     build: ./FPS
-    depends_on:
-      - security_monitor
+  
     entrypoint:
       - bash
       - -c
@@ -226,6 +225,8 @@ services:
           python3 wait_for_rabbitmq.py rabbitmq user password
           sleep 15
           ./FPS
+    ports:
+       - "8081:8081"
     environment:
       RABBIT_HOST: rabbitmq
       RABBIT_USER: user
