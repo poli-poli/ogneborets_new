@@ -10,6 +10,9 @@ using json = nlohmann::json;
 using MessageHandlerFunction = std:: function < int(AMQPMessage * ) > ;
 
 int main(void) {
+
+    cout << "CentralControlSystem started "  << "\n";
+
     char * host = std::getenv("RABBIT_HOST");
     char * user = std::getenv("RABBIT_USER");
     char * password = std::getenv("RABBIT_PASS");
@@ -24,6 +27,8 @@ int main(void) {
     const char * queue_name = "SecurityMonitor";
     const char * queue_name1 = "CentralControlSystem";
     const string consumer_tag = "CentralControlSystem";
+
+    cout << "Starting publisher "  << "\n";
 
     Publisher publisher(conn_str, exchange_name, queue_name);
 
@@ -48,6 +53,7 @@ int main(void) {
             }
 
             if (operation == "move_to_area") {
+                //process operation
                 json msg;
                 msg["source"] = "CentralControlSystem";
                 msg["data"] = "Area coordinates";
@@ -60,6 +66,7 @@ int main(void) {
             }
 
             if (operation == "activate_extinguishing") {
+                //process operation
                 json msg;
                 msg["source"] = "CentralControlSystem";
                 msg["data"] = "Activate extinguishing";
@@ -72,6 +79,7 @@ int main(void) {
             }
 
             if (operation == "activate_ignition") {
+                //process operation
                 json msg;
                 msg["source"] = "CentralControlSystem";
                 msg["data"] = "Command to activate ignition";
@@ -84,6 +92,7 @@ int main(void) {
             }
 
             if (operation == "request_coordinates") {
+                //process operation
                 json msg;
                 msg["source"] = "CentralControlSystem";
                 msg["data"] = "Request for GNSS coordinates";
@@ -96,6 +105,7 @@ int main(void) {
             }
 
             if (operation == "request_movement_update") {
+                //process operation
                 json msg;
                 msg["source"] = "CentralControlSystem";
                 msg["data"] = "Request for movement update";
@@ -110,6 +120,8 @@ int main(void) {
         }
         return 0;
     };
+
+    cout << "Starting consumer "  << "\n";
 
     Consumer consumer(conn_str, exchange_name, queue_name1, consumer_tag, handler);
 

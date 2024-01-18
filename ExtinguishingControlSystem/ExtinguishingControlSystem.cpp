@@ -25,6 +25,8 @@ int main(void) {
     const char * queue_name1 = "ExtinguishingControlSystem";
     const string consumer_tag = "ExtinguishingControlSystem";
 
+    cout << "Starting publisher "  << "\n";
+
     Publisher publisher(conn_str, exchange_name, queue_name);
 
     MessageHandlerFunction handler = [ & ](AMQPMessage * message) -> int {
@@ -37,7 +39,7 @@ int main(void) {
             cout << "Received operation: " << operation << endl;
 
             if (operation == "start_extinguishing") {
-                // Handle start_extinguishing and send extinguishing_completed to CentralControlSystem
+                // process operation
                 json responseMsg;
                 responseMsg["source"] = "ExtinguishingControlSystem";
                 responseMsg["data"] = 1;

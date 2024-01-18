@@ -17,6 +17,8 @@ using json = nlohmann::json;
 using MessageHandlerFunction = std:: function < int(AMQPMessage * ) > ;
 
 int main(void) {
+
+    cout << "Starting FlightTask Authentificator "  << "\n";
     char * host = std::getenv("RABBIT_HOST");
     char * user = std::getenv("RABBIT_USER");
     char * password = std::getenv("RABBIT_PASS");
@@ -36,6 +38,8 @@ int main(void) {
       "start_extinguishing1",
       "start_extinguishing2"
     };
+
+    cout << "Valid tasks are set. Starting publisher "  << "\n";
 
     Publisher publisher(conn_str, exchange_name, queue_name);
 
@@ -78,6 +82,8 @@ int main(void) {
             }
             return 0;
           };
+
+          cout << "Starting consuming "  << "\n";
 
           Consumer consumer(conn_str, exchange_name, queue_name1, consumer_tag, handler);
 

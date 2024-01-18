@@ -10,6 +10,7 @@ using json = nlohmann::json;
 using MessageHandlerFunction = std:: function < int(AMQPMessage * ) > ;
 
 int main(void) {
+    cout << "INS navigation started "  << "\n";
     char * host = std::getenv("RABBIT_HOST");
     char * user = std::getenv("RABBIT_USER");
     char * password = std::getenv("RABBIT_PASS");
@@ -24,6 +25,8 @@ int main(void) {
     const char * queue_name = "SecurityMonitor";
     const char * queue_name1 = "INSNavigationSystem";
     const string consumer_tag = "INSNavigationSystem";
+
+    cout << "Starting publisher "  << "\n";
 
     Publisher publisher(conn_str, exchange_name, queue_name);
 
@@ -51,6 +54,8 @@ int main(void) {
         }
         return 0;
     };
+
+    cout << "Starting consumer "  << "\n";
 
     Consumer consumer(conn_str, exchange_name, queue_name1, consumer_tag, handler);
 

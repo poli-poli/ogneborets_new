@@ -10,6 +10,7 @@ using json = nlohmann::json;
 using MessageHandlerFunction = std:: function < int(AMQPMessage * ) > ;
 
 int main(void) {
+    cout << "FireIgnitionSystem started "  << "\n";
     char * host = std::getenv("RABBIT_HOST");
     char * user = std::getenv("RABBIT_USER");
     char * password = std::getenv("RABBIT_PASS");
@@ -25,6 +26,8 @@ int main(void) {
     const char * queue_name1 = "FireIgnitionSystem";
     const string consumer_tag = "FireIgnitionSystem";
 
+    cout << "Starting publisher "  << "\n";
+
     Publisher publisher(conn_str, exchange_name, queue_name);
 
     MessageHandlerFunction handler = [ & ](AMQPMessage * message) -> int {
@@ -37,6 +40,7 @@ int main(void) {
             cout << "Received operation: " << operation << endl;
 
             if (operation == "activate_ignition") {
+                //process operation
                 json responseMsg;
                 responseMsg["source"] = "FireIgnitionSystem";
                 responseMsg["data"] = 1;
@@ -51,6 +55,8 @@ int main(void) {
         }
         return 0;
     };
+
+    cout << "Starting consumer "  << "\n";
 
     Consumer consumer(conn_str, exchange_name, queue_name1, consumer_tag, handler);
 
