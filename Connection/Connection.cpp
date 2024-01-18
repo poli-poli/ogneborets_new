@@ -31,6 +31,8 @@ void handle_api(const Request & req, Response & res) {
     const char * queue_name1 = "Connection";
     const string consumer_tag = "Connection";
 
+    cout << "Starting publisher  " << task << endl;
+
     Publisher publisher(conn_str, exchange_name, queue_name);
 
     json msg;
@@ -52,6 +54,7 @@ int main() {
   cout << "Starting Connection at http://0.0.0.0:" << PORT << endl;
 
   Server svr;
+  cout << "Starting consumer"  << endl;
   svr.Get("/api", handle_api);
   svr.listen("0.0.0.0", PORT);
 
